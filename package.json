@@ -1,0 +1,31 @@
+{
+  "name": "github-to-azure-connector",
+  "version": "1.0.0",
+  "description": "Manda issues de github a boards de Azure",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/occmundial/github-to-azure-connector.git"
+  },
+  "keywords": [
+    "github",
+    "issues",
+    "azure",
+    "security",
+    "feature"
+  ],
+  "author": "Alan García y Medardo Daniel Galnarez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/occmundial/github-to-azure-connector/issues"
+  },
+  "homepage": "https://github.com/occmundial/github-to-azure-connector#readme",
+  "dependencies": {
+    "node-fetch": "^3.2.6"
+  }
+}
