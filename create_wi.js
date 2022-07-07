@@ -13,25 +13,37 @@ let body = [
       "op": "add",
       "path": "/fields/System.Title",
       "from": null,
-      "value": "Test5"
+      "value": "New work item from node 2"
     },
     {
       "op": "add",
       "path": "/fields/System.Description",
       "from": null,
-      "value": "Creado con api"
+      "value": "Creado con api jejeje"
     },
     {
       "op": "add",
       "path": "/fields/System.AreaPath",
       "from": null,
-      "value": "Workshop\\Equipo azul"
+      "value": "Workshop\\RedTeam"
     },
     {
       "op": "add",
       "path": "/fields/System.Tags",
       "from": null,
-      "value": "Security; security fix"
+      "value": "Security; security fix; Demo"
+    },
+    {
+      "op": "add",
+      "path": "/fields/System.State",
+      "from": null,
+      "value": "Active"
+    },
+    {
+      "op": "add",
+      "path": "/fields/System.AssignedTo",
+      "from": null,
+      "value": "Alan Garcia Bolaños"
     }
 ];
 
