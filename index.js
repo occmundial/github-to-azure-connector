@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-let pat = 'qpftyfvsfdog7y5ar54nsmq4n7mwu5am6gshggbjfvzldy7xztva';
+
 var server = 'https://dev.azure.com/occmundial/_apis/projects?api-version=2.0';
 var headers = {
     'Content-Type': 'application/json; charset=utf-8;',

@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
 
-let pat = 'qpftyfvsfdog7y5ar54nsmq4n7mwu5am6gshggbjfvzldy7xztva';
 var server = 'https://dev.azure.com/occmundial/Workshop/_apis/wit/workitems/$User Story?api-version=7.1-preview.3';
 var headers = {
     'Content-Type': 'application/json-patch+json',
