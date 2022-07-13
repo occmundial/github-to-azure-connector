@@ -7,7 +7,7 @@ const env = process.env;
 
 let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
-createWI(payload.env.adoToken);
+createWI(vm.env.adoToken);
 
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
