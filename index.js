@@ -7,7 +7,7 @@ const env = process.env;
 
 let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
-createWI(vm.env.adoToken);
+createWI(vm);
 
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
@@ -76,7 +76,8 @@ function getValuesFromPayload(payload, env) {
     return vm;
   }
 
-  function createWI(token){
+  function createWI(vm){
+    let token = vm.env.adoToken;
     let pat = token;
     var server = 'https://dev.azure.com/occmundial/Workshop/_apis/wit/workitems/$User Story?api-version=7.1-preview.3';
     var headers = {
@@ -90,7 +91,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Title",
           "from": null,
-          "value": "New work item from github action"
+          "value": "New work item from github action 2"
         },
         {
           "op": "add",
@@ -134,7 +135,8 @@ function getValuesFromPayload(payload, env) {
       .then(response => response.json())
       .then(response => {
           console.log('Web API responds:');
-          console.log(response);
+          //console.log(response);
+          console.log(vm);
       }).catch(error => {
           console.error(error);
       }); 
