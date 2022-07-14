@@ -91,7 +91,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Title",
           "from": null,
-          "value": "New work item from github action 2"
+          "value": "Work item from github"
         },
         {
           "op": "add",
