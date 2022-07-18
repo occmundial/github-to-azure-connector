@@ -76,13 +76,6 @@ function getValuesFromPayload(payload, env) {
     return vm;
   }
 
-  function getLabelsToCharge(){
-    let labelsGeted = vm.label;
-    let labelToCharge = labelsGeted;
-
-    return labelToCharge
-  }
-
   function createWI(vm){
     let token = vm.env.adoToken;
     let pat = token;
@@ -91,7 +84,7 @@ function getValuesFromPayload(payload, env) {
         'Content-Type': 'application/json-patch+json',
         'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
     };
-  
+    let labelsToCharge = vm.label.toString()
   
     let body = [
         {
@@ -116,7 +109,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Tags",
           "from": null,
-          "value": getLabelsToCharge
+          "value": labelsToCharge
         },
         {
           "op": "add",
