@@ -108,7 +108,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Tags",
           "from": null,
-          "value": vm.label
+          "value": "issue"
         },
         {
           "op": "add",
