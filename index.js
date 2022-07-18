@@ -79,7 +79,7 @@ function getValuesFromPayload(payload, env) {
   function createWI(vm){
     let token = vm.env.adoToken;
     let pat = token;
-    var server = 'https://dev.azure.com/occmundial/Workshop/_apis/wit/workitems/$User Story?api-version=7.1-preview.3';
+    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/$User Story?api-version=7.1-preview.3`;
     var headers = {
         'Content-Type': 'application/json-patch+json',
         'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
@@ -91,31 +91,31 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Title",
           "from": null,
-          "value": "Work item from github"
+          "value": vm.title
         },
         {
           "op": "add",
           "path": "/fields/System.Description",
           "from": null,
-          "value": "Creado con api jejeje"
+          "value": vm.body
         },
         {
           "op": "add",
           "path": "/fields/System.AreaPath",
           "from": null,
-          "value": "Workshop\\RedTeam"
+          "value": vm.env.areaPath
         },
         {
           "op": "add",
           "path": "/fields/System.Tags",
           "from": null,
-          "value": "Security; security fix; Demo"
+          "value": vm.label
         },
         {
           "op": "add",
           "path": "/fields/System.State",
           "from": null,
-          "value": "Active"
+          "value": vm.env.activeState
         },
         {
           "op": "add",
