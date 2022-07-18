@@ -84,7 +84,6 @@ function getValuesFromPayload(payload, env) {
         'Content-Type': 'application/json-patch+json',
         'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
     };
-    let labelsToCharge = vm.label.toString()
   
     let body = [
         {
@@ -109,7 +108,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Tags",
           "from": null,
-          "value": labelsToCharge
+          "value": vm.label
         },
         {
           "op": "add",
