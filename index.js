@@ -76,6 +76,13 @@ function getValuesFromPayload(payload, env) {
     return vm;
   }
 
+  function getLabelsToCharge(){
+    let labelsGeted = vm.label;
+    let labelToCharge = labelsGeted;
+
+    return labelToCharge
+  }
+
   function createWI(vm){
     let token = vm.env.adoToken;
     let pat = token;
@@ -109,7 +116,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.Tags",
           "from": null,
-          "value": vm.label
+          "value": getLabelsToCharge
         },
         {
           "op": "add",
