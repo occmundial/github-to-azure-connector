@@ -40,6 +40,7 @@ function getValuesFromPayload(payload, env) {
               areaPath: env.ado_area_path != undefined ? env.ado_area_path : "",
               iterationPath: env.ado_iteration_path != undefined ? env.ado_iteration_path : "",
               wit: env.ado_wit != undefined ? env.ado_wit : "Issue",
+              adoParent: env.ado_parent != undefined ? env.adoParent : "",
               closedState: env.ado_close_state != undefined ? env.ado_close_state : "Closed",
               newState: env.ado_new_state != undefined ? env.ado_new_state : "New",
               activeState: env.ado_active_state != undefined ? env.ado_active_state : "Active",
@@ -121,7 +122,16 @@ function getValuesFromPayload(payload, env) {
           "path": "/fields/System.AssignedTo",
           "from": null,
           "value": "Alan Garcia Bolaños"
+        },
+        {
+          "op": "add",
+          "path": "/relations/-",
+          "value": {
+            "rel": "System.LinkTypes.Hierarchy-Reverse",
+            "url": vm.env.adoParent
+          }
         }
+
     ];
   
     const options = {

@@ -1,5 +1,4 @@
-import fetch from 'node-fetch';
-
+const fetch = require(`node-fetch-commonjs`);
 
 var server = 'https://dev.azure.com/occmundial/_apis/projects?api-version=2.0';
 var headers = {
