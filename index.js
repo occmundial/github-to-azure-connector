@@ -80,7 +80,7 @@ function getValuesFromPayload(payload, env) {
   function createWI(vm){
     let token = vm.env.adoToken;
     let pat = token;
-    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/$User Story?api-version=7.1-preview.3`;
+    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${vm.env.wit}?api-version=7.1-preview.3`;
     var headers = {
         'Content-Type': 'application/json-patch+json',
         'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
@@ -144,7 +144,7 @@ function getValuesFromPayload(payload, env) {
       .then(response => response.json())
       .then(response => {
           console.log('Web API responds:');
-          //console.log(response);
+          console.log(response);
           console.log(vm);
       }).catch(error => {
           console.error(error);
