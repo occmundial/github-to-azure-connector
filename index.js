@@ -161,7 +161,8 @@ function getValuesFromPayload(payload, env) {
       }); 
   }
 
-  async function updateIssueBody(vm, workItemID) {
+  function updateIssueBody(vm, workItemID) {
+    //async / await en espera de switch
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
     var n = vm.body.includes("AB#" + workItemID.toString());  
@@ -172,7 +173,7 @@ function getValuesFromPayload(payload, env) {
         auth: vm.env.ghToken
       })
       
-      var result = await octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
+      var result = octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
         owner: vm.owner,
         repo: vm.repository,
         issue_number: vm.number,
