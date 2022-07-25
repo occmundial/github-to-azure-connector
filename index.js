@@ -167,7 +167,8 @@ function getValuesFromPayload(payload, env) {
     var n = vm.body.includes("AB#" + workItemID.toString());  
   
     if (!n) {
-      const octokit = new github.GitHub(vm.env.ghToken);
+      const octokit = new github.getOctokit(vm.env.ghToken);
+      //const octokit = new github.GitHub(vm.env.ghToken);
       vm.body = vm.body + "\r\n\r\nAB#" + workItemID.toString();
   
       var result = await octokit.issues.update({
