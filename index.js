@@ -151,7 +151,11 @@ function getValuesFromPayload(payload, env) {
       }); 
   }
 
-  function updateIssueBody(vm, workItem) {
+  let issue = "";
+
+  issue = vm.env.ghToken != "" ? await updateIssueBody(vm, workItem) : "";
+
+  async function updateIssueBody(vm, workItem) {
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
   var n = vm.body.includes("AB#" + workItem.id.toString());  
@@ -160,7 +164,7 @@ function getValuesFromPayload(payload, env) {
       const octokit = new github.GitHub(vm.env.ghToken);
       vm.body = vm.body + "\r\n\r\nAB#" + workItem.id.toString();
   
-      var result = octokit.issues.update({
+      var result = await octokit.issues.update({
         owner: vm.owner,
         repo: vm.repository,
         issue_number: vm.number,
