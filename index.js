@@ -9,10 +9,6 @@ let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
 createWI(vm);
 
-let issue = "";
-
-issue = vm.env.ghToken != "" ? await updateIssueBody(vm, workItem) : "";
-
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
     // prettier-ignore
@@ -155,16 +151,16 @@ function getValuesFromPayload(payload, env) {
       }); 
   }
 
-  async function updateIssueBody(vm, workItem) {
+  function updateIssueBody(vm, workItem) {
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
-    var n = vm.body.includes("AB#" + workItem.id.toString());  
+  var n = vm.body.includes("AB#" + workItem.id.toString());  
   
     if (!n) {
       const octokit = new github.GitHub(vm.env.ghToken);
       vm.body = vm.body + "\r\n\r\nAB#" + workItem.id.toString();
   
-      var result = await octokit.issues.update({
+      var result = octokit.issues.update({
         owner: vm.owner,
         repo: vm.repository,
         issue_number: vm.number,
