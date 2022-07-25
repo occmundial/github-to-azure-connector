@@ -172,7 +172,7 @@ function getValuesFromPayload(payload, env) {
         auth: vm.env.ghToken
       })
       
-      await octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
+      var result = await octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
         owner: vm.owner,
         repo: vm.repository,
         issue_number: vm.number,
