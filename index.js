@@ -1,7 +1,7 @@
 const core = require(`@actions/core`);
 const github = require(`@actions/github`);
 const fetch = require(`node-fetch-commonjs`);
-import { Octokit, App } from "octokit";
+const { Octokit, App } = require("octokit");
 
 const context = github.context;
 const env = process.env;
