@@ -152,23 +152,23 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          console.log('Web API responds:');
           console.log(response.id);
           console.log(vm);
+          updateIssueBody(vm,response.id);
 
       }).catch(error => {
           console.error(error);
       }); 
   }
 
-/*   async function updateIssueBody(vm, workItem) {
+  async function updateIssueBody(vm, workItemID) {
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
-  var n = vm.body.includes("AB#" + workItem.id.toString());  
+    var n = vm.body.includes("AB#" + workItemID.toString());  
   
     if (!n) {
       const octokit = new github.GitHub(vm.env.ghToken);
-      vm.body = vm.body + "\r\n\r\nAB#" + workItem.id.toString();
+      vm.body = vm.body + "\r\n\r\nAB#" + workItemID.toString();
   
       var result = await octokit.issues.update({
         owner: vm.owner,
@@ -187,4 +187,4 @@ function getValuesFromPayload(payload, env) {
     }
   
     return null;
-  } */
+  }
