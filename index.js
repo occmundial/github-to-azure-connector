@@ -8,7 +8,7 @@ const env = process.env;
 let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
 createWI(vm);
-main();
+/* main();
 
 async function main(){
 
@@ -16,7 +16,7 @@ async function main(){
 
   issue = vm.env.ghToken != "" ? await updateIssueBody(vm, workItem) : "";
 
-}
+} */
 
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
@@ -153,14 +153,15 @@ function getValuesFromPayload(payload, env) {
       .then(response => response.json())
       .then(response => {
           console.log('Web API responds:');
-          console.log(response);
+          console.log(response.id);
           console.log(vm);
+
       }).catch(error => {
           console.error(error);
       }); 
   }
 
-  async function updateIssueBody(vm, workItem) {
+/*   async function updateIssueBody(vm, workItem) {
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
   var n = vm.body.includes("AB#" + workItem.id.toString());  
@@ -186,4 +187,4 @@ function getValuesFromPayload(payload, env) {
     }
   
     return null;
-  }
+  } */
