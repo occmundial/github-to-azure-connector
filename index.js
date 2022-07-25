@@ -8,6 +8,15 @@ const env = process.env;
 let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
 createWI(vm);
+main();
+
+async function main(){
+
+  let issue = "";
+
+  issue = vm.env.ghToken != "" ? await updateIssueBody(vm, workItem) : "";
+
+}
 
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
@@ -150,10 +159,6 @@ function getValuesFromPayload(payload, env) {
           console.error(error);
       }); 
   }
-
-  let issue = "";
-
-  issue = vm.env.ghToken != "" ? await updateIssueBody(vm, workItem) : "";
 
   async function updateIssueBody(vm, workItem) {
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
