@@ -1,6 +1,7 @@
 const core = require(`@actions/core`);
 const github = require(`@actions/github`);
 const fetch = require(`node-fetch-commonjs`);
+import { Octokit, App } from "octokit";
 
 const context = github.context;
 const env = process.env;
@@ -152,9 +153,9 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          console.log(response.id);
-          console.log(vm);
-          updateIssueBody(vm,response.id);
+          //console.log(response.id);
+          //console.log(vm);
+          console.log(updateIssueBody(vm,response.id));
 
       }).catch(error => {
           console.error(error);
@@ -167,16 +168,17 @@ function getValuesFromPayload(payload, env) {
     var n = vm.body.includes("AB#" + workItemID.toString());  
   
     if (!n) {
-      const octokit = new github.getOctokit(vm.env.ghToken);
-      //const octokit = new github.GitHub(vm.env.ghToken);
       vm.body = vm.body + "\r\n\r\nAB#" + workItemID.toString();
-  
-      var result = await octokit.issues.update({
+      const octokit = new Octokit({
+        auth: vm.env.ghToken
+      })
+      
+      await octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
         owner: vm.owner,
         repo: vm.repository,
         issue_number: vm.number,
         body: vm.body,
-      });
+      })
   
       // verbose logging
       if (vm.env.logLevel >= 300) {
