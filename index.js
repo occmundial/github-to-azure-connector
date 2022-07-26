@@ -168,6 +168,7 @@ function getValuesFromPayload(payload, env) {
           //console.log(response.id);
           //console.log(vm);
           console.log(updateIssueBody(vm,response.id));
+          addLabelsOnWI(response.id, vm);
 
       }).catch(error => {
           console.error(error);
@@ -197,7 +198,6 @@ function getValuesFromPayload(payload, env) {
         console.log("Print github issue update result:");
         console.log(result);
       }
-      addLabelsOnWI(workItemID, vm);
       return result;
     }
   
