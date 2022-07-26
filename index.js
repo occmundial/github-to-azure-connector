@@ -207,7 +207,7 @@ function getValuesFromPayload(payload, env) {
   async function addLabelsOnWI(vm){
     let str = vm.body;
     try {
-      let position = await (str.search("AB#") + 3);
+      let position = await (str.includes("AB#") + 3);
       const id = str.substring(position);
       console.log(id);
     } catch(e) {
