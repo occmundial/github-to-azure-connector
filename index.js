@@ -12,7 +12,7 @@ main(vm);
 function main(vm){
 
   switch (vm.action){
-    case "labeled":
+    case "opened":
       console.log("opened state run");
       createWI(vm);
       break;
@@ -20,11 +20,11 @@ function main(vm){
       console.log("edited state run");
       //Function to edit WI
       break;
-    /*case "labeled":
+    case "labeled":
       console.log("labeled state run");
       //Function to add label
       //addLabelsOnWI(vm);
-      break;*/
+      break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
   }
