@@ -7,16 +7,25 @@ const env = process.env;
 
 let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
-createWI(vm);
-/* main();
+main(vm);
 
-async function main(){
+async function main(vm){
 
-  let issue = "";
-
-  issue = vm.env.ghToken != "" ? await updateIssueBody(vm, workItem) : "";
-
-} */
+  switch (vm.action){
+    case "opened":
+      createWI(vm);
+      break;
+    case "labeled":
+      //Function to add label
+      break;
+    case "edited":
+      //Function to edit WI
+      break;
+    default:
+      console.log(`This is a diferent action: ${vm.action}`);
+  }
+  
+}
 
 // get object values from the payload that will be used for logic, updates, finds, and creates
 function getValuesFromPayload(payload, env) {
