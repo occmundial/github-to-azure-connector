@@ -204,9 +204,13 @@ function getValuesFromPayload(payload, env) {
     return null;
   }
 
-  function addLabelsOnWI(vm){
+  async function addLabelsOnWI(vm){
     let str = vm.body;
-    const id = str.substring(str.search("AB#") + 3);
-    console.log(id);
-    
+    try {
+      let position = await (str.search("AB#") + 3);
+      const id = str.substring(position);
+      console.log(id);
+    } catch(e) {
+      console.log(e);
+    }
   }
