@@ -15,12 +15,12 @@ async function main(vm){
     case "opened":
       createWI(vm);
       break;
+    case "edited":
+      //Function to edit WI
+      break;
     case "labeled":
       //Function to add label
       addLabelsOnWI(vm);
-      break;
-    case "edited":
-      //Function to edit WI
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -202,8 +202,8 @@ function getValuesFromPayload(payload, env) {
   }
 
   async function addLabelsOnWI(vm){
-    let str = vm.body.search("AB#");
-    const id = str.substring(str.indexOf("AB#") + 1);
+    let str = vm.body;
+    const id = str.substring(str.search("AB#") + 1);
     console.log(id);
     
   }
