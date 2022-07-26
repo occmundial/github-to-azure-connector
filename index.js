@@ -17,6 +17,7 @@ async function main(vm){
       break;
     case "labeled":
       //Function to add label
+      addLabelsOnWI(vm);
       break;
     case "edited":
       //Function to edit WI
@@ -198,4 +199,11 @@ function getValuesFromPayload(payload, env) {
     }
   
     return null;
+  }
+
+  async function addLabelsOnWI(vm){
+    let str = vm.body.search("AB#");
+    const id = str.substring(str.indexOf("AB#") + 1);
+    console.log(id);
+    
   }
