@@ -23,7 +23,7 @@ function main(vm){
     case "labeled":
       console.log("labeled state run");
       //Function to add label
-      addLabelsOnWI(vm);
+      //addLabelsOnWI(vm);
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -197,20 +197,53 @@ function getValuesFromPayload(payload, env) {
         console.log("Print github issue update result:");
         console.log(result);
       }
-  
+      addLabelsOnWI(workItemID, vm);
       return result;
     }
   
     return null;
   }
 
-  function addLabelsOnWI(vm){
+  function addLabelsOnWI(ID, vm){
+    let token = vm.env.adoToken;
+    let pat = token;
+    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${ID}?api-version=7.1-preview.3`;
+    var headers = {
+        'Content-Type': 'application/json-patch+json',
+        'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
+    };
+    let body = [
+      {
+        "op": "add",
+        "path": "/fields/System.Tags",
+        "from": null,
+        "value": vm.label
+      }
+    ];
+
+    const options = {
+      method: "PATCH",
+      headers: headers,
+      body: JSON.stringify(body),
+    };
+
+    fetch(server, options)
+      .then(response => response.json())
+      .then(response => {
+          console.log(response);
+      }).catch(error => {
+          console.error(error);
+      }); 
+
+  }
+
+  function editWI(vm){
     let str = vm.body;
     if (str.includes("AB#")){
       let position = (str.search("AB#") + 3);
       const id = str.substring(position);
       console.log(id);
     } else {
-      addLabelsOnWI(vm);
+      console.log(":c");
     }
   }
