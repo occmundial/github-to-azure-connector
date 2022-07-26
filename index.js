@@ -9,16 +9,19 @@ let vm = [];
 vm = getValuesFromPayload(github.context.payload, env);
 main(vm);
 
-async function main(vm){
+function main(vm){
 
   switch (vm.action){
     case "opened":
+      console.log("opened state run");
       createWI(vm);
       break;
     case "edited":
+      console.log("edited state run");
       //Function to edit WI
       break;
     case "labeled":
+      console.log("labeled state run");
       //Function to add label
       addLabelsOnWI(vm);
       break;
@@ -171,7 +174,7 @@ function getValuesFromPayload(payload, env) {
       }); 
   }
 
-  async function updateIssueBody(vm, workItemID) {
+  function updateIssueBody(vm, workItemID) {
     if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
     var n = vm.body.includes("AB#" + workItemID.toString());  
@@ -182,7 +185,7 @@ function getValuesFromPayload(payload, env) {
         auth: vm.env.ghToken
       })
       
-      var result = await octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
+      var result = octokit.request(`PATCH /repos/${vm.owner}/${vm.repository}/issues/${vm.number}`, {
         owner: vm.owner,
         repo: vm.repository,
         issue_number: vm.number,
@@ -201,9 +204,9 @@ function getValuesFromPayload(payload, env) {
     return null;
   }
 
-  async function addLabelsOnWI(vm){
+  function addLabelsOnWI(vm){
     let str = vm.body;
-    const id = await str.substring(str.search("AB#") + 1);
+    const id = str.substring(str.search("AB#") + 3);
     console.log(id);
     
   }
