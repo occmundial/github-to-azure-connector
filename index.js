@@ -207,7 +207,7 @@ function getValuesFromPayload(payload, env) {
       auth: vm.env.ghToken
     })
     
-    var labels = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
+    var labels =  octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
       owner: vm.owner,
       repo: vm.repository,
       issue_number: vm.number
