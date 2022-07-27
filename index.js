@@ -22,7 +22,13 @@ function main(vm){
       break;
     case "labeled":
       console.log("labeled");
-      console.log(addLabelsOnWI(vm));
+      const otrafuncion = async () => {
+        labels = await getLabels(vm);
+        labels.data.forEach((item) => {
+          console.log('name: ' + item.name);
+        });
+      }
+      otrafuncion();
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -201,26 +207,23 @@ function getValuesFromPayload(payload, env) {
     return null;
   }
 
-  function addLabelsOnWI(vm){
+  async function getLabels(vm){
     const octokit = new Octokit({
       auth: vm.env.ghToken
     })
     
-    var result =  octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
+    var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
       owner: vm.owner,
       repo: vm.repository,
       issue_number: vm.number
     })
 
     return result;
+  }
 
+  function addLabelsOnWI(vm, labels){
 
-    /* for (const label of labels) {
-      console.log(label.name);
-    } */
-
-
-    /* let token = vm.env.adoToken;
+    let token = vm.env.adoToken;
     let pat = token;
     var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${ID}?api-version=7.1-preview.3`;
     var headers = {
@@ -248,7 +251,7 @@ function getValuesFromPayload(payload, env) {
           console.log(response);
       }).catch(error => {
           console.error(error);
-      });  */
+      });  
 
   }
 
