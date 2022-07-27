@@ -29,10 +29,8 @@ function main(vm){
           labels_array.push(item.name);
         });
         const labels_string = String(labels_array);
-        const awaitWorkItemNumber = async () => { 
-          console.log(await addLabelsOnWI(labels_string));
-        }
-        awaitWorkItemNumber();
+        //console.log(addLabelsOnWI(labels_string));
+        console.log(labels_string,vm);
       }
       awaitlabels();
       break;
@@ -227,14 +225,14 @@ function getValuesFromPayload(payload, env) {
     return result;
   }
 
-  async function addLabelsOnWI(labels){
+  function addLabelsOnWI(labels){
     vm = getValuesFromPayload(github.context.payload, env);
 
     var id = "";
 
     let str = vm.body;
     if (str.includes("AB#")){
-      let position = await (str.search("AB#") + 3);
+      let position = (str.search("AB#") + 3);
       id = str.substring(position);
     } else {
       return "No hay AB";
