@@ -21,9 +21,8 @@ function main(vm){
       //Function to edit WI
       break;
     case "labeled":
-      console.log("Estas son las label a cargar:" + vm.label);
-      //Function to add label
-      //addLabelsOnWI(vm);
+      console.log("labeled");
+      addLabelsOnWI(vm);
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -68,7 +67,7 @@ function getValuesFromPayload(payload, env) {
               activeState: env.ado_active_state != undefined ? env.ado_active_state : "Active",
               bypassRules: env.ado_bypassrules != undefined ? env.ado_bypassrules : false,
               githubIssueState: env. github_issue_state != undefined ? env. github_issue_state : "default",
-        logLevel: env.log_level != undefined ? env.log_level : 100
+              logLevel: env.log_level != undefined ? env.log_level : 100
           }
       };
   
@@ -203,8 +202,23 @@ function getValuesFromPayload(payload, env) {
     return null;
   }
 
-  function addLabelsOnWI(ID, vm){
-    let token = vm.env.adoToken;
+  function addLabelsOnWI(vm){
+    const octokit = new Octokit({
+      auth: vm.env.ghToken
+    })
+    
+    var labels = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
+      owner: vm.owner,
+      repo: vm.repository,
+      issue_number: vm.number
+    })
+
+    for (const label of labels) {
+      console.log(label.name);
+    }
+
+
+    /* let token = vm.env.adoToken;
     let pat = token;
     var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${ID}?api-version=7.1-preview.3`;
     var headers = {
@@ -232,7 +246,7 @@ function getValuesFromPayload(payload, env) {
           console.log(response);
       }).catch(error => {
           console.error(error);
-      }); 
+      });  */
 
   }
 
