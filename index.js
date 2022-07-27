@@ -11,7 +11,7 @@ main(vm);
 
 function main(vm){
 
-  switch (vm.action){
+  switch (vm.env.githubIssueState){
     case "opened":
       console.log("opened state run");
       createWI(vm);
@@ -21,7 +21,7 @@ function main(vm){
       //Function to edit WI
       break;
     case "labeled":
-      console.log("labeled state run");
+      console.log("Estas son las label a cargar:" + vm.label);
       //Function to add label
       //addLabelsOnWI(vm);
       break;
@@ -67,6 +67,7 @@ function getValuesFromPayload(payload, env) {
               newState: env.ado_new_state != undefined ? env.ado_new_state : "New",
               activeState: env.ado_active_state != undefined ? env.ado_active_state : "Active",
               bypassRules: env.ado_bypassrules != undefined ? env.ado_bypassrules : false,
+              githubIssueState: env. github_issue_state != undefined ? env. github_issue_state : "default",
         logLevel: env.log_level != undefined ? env.log_level : 100
           }
       };
@@ -168,8 +169,6 @@ function getValuesFromPayload(payload, env) {
           //console.log(response.id);
           //console.log(vm);
           console.log(updateIssueBody(vm,response.id));
-          addLabelsOnWI(response.id, vm);
-
       }).catch(error => {
           console.error(error);
       }); 
