@@ -226,7 +226,7 @@ function getValuesFromPayload(payload, env) {
   function addLabelsOnWI(labels){
 
     const octokit = new Octokit({
-      auth: token
+      auth: vm.env.ghToken
     })
     
     var result =  octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
