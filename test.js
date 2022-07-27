@@ -1,28 +1,12 @@
+addLabelsOnWI("dhksjlhdskjhd djskah ajhljkfhsd jhhajh \r\n\r\nAB#1234");
 
-const { Octokit, App } = require("octokit");
-
-
-const otrafuncion = async () => {
-    labels = await addLabelsOnWI("");
-    labels.data.forEach((item) => {
-        console.log('name: ' + item.name);
-    });
-
-}
-
-async function addLabelsOnWI(vm){
-    const octokit = new Octokit({
-      auth: vm
-    })
+async function addLabelsOnWI(desc){
+    let str = desc;
+    if (str.includes("AB#")){
+        const id = str.substring(str.search("AB#") + 3);
+        console.log(id);
+    } else {
+        console.log("no hay");
+    }
     
-    var result = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
-      owner: "occmundial",
-      repo: "security-tests",
-      issue_number: "87"
-    })
-
-    
-    return result;
 }
-
-otrafuncion();

@@ -22,7 +22,8 @@ function main(vm){
       break;
     case "labeled":
       console.log("labeled");
-      const otrafuncion = async () => {
+      console.log(editWI(vm));
+      /* const otrafuncion = async () => {
         let labels_array = [];
         labels = await getLabels(vm);
         labels.data.forEach((item) => {
@@ -31,7 +32,7 @@ function main(vm){
         const labels_string = String(labels_array);
         console.log(addLabelsOnWI(labels_string));
       }
-      otrafuncion();
+      otrafuncion(); */
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -274,8 +275,8 @@ function getValuesFromPayload(payload, env) {
     if (str.includes("AB#")){
       let position = (str.search("AB#") + 3);
       const id = str.substring(position);
-      console.log(id);
+      return id;
     } else {
-      console.log(":c");
+      return ":c";
     }
   }
