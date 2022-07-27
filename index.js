@@ -2,7 +2,6 @@ const github = require(`@actions/github`);
 const fetch = require(`node-fetch-commonjs`);
 const { Octokit, App } = require("octokit");
 
-const context = github.context;
 const env = process.env;
 
 let vm = [];
@@ -28,10 +27,8 @@ function main(vm){
         labels.data.forEach((item) => {
           labels_array.push(item.name);
         });
-        let new_vm = getValuesFromPayload(github.context.payload, env);
         const labels_string = String(labels_array);
-        //console.log(addLabelsOnWI(labels_string));
-        console.log(labels_string,new_vm);
+        console.log(addLabelsOnWI(labels_string));
       }
       awaitlabels();
       break;
@@ -227,11 +224,20 @@ function getValuesFromPayload(payload, env) {
   }
 
   function addLabelsOnWI(labels){
-    vm = getValuesFromPayload(github.context.payload, env);
+
+    const octokit = new Octokit({
+      auth: token
+    })
+    
+    var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
+      owner: vm.owner,
+      repo: vm.repository,
+      issue_number: vm.number
+    })
 
     var id = "";
 
-    let str = vm.body;
+    let str = result.data.body;
     if (str.includes("AB#")){
       let position = (str.search("AB#") + 3);
       id = str.substring(position);
