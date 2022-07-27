@@ -22,7 +22,7 @@ function main(vm){
       break;
     case "labeled":
       console.log("labeled");
-      addLabelsOnWI(vm);
+      console.log(addLabelsOnWI(vm));
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -194,7 +194,6 @@ function getValuesFromPayload(payload, env) {
       // verbose logging
       if (vm.env.logLevel >= 300) {
         console.log("Print github issue update result:");
-        console.log(result);
       }
       return result;
     }
@@ -213,7 +212,7 @@ function getValuesFromPayload(payload, env) {
       issue_number: vm.number
     })
 
-    console.log(result);
+    return result;
 
 
     /* for (const label of labels) {
