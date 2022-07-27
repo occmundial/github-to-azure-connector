@@ -1,4 +1,6 @@
-addLabelsOnWI("dhksjlhdskjhd djskah ajhljkfhsd jhhajh \r\n\r\nAB#1234");
+
+const { Octokit, App } = require("octokit");
+//addLabelsOnWI(getissue("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"));
 
 async function addLabelsOnWI(desc){
     let str = desc;
@@ -9,4 +11,21 @@ async function addLabelsOnWI(desc){
         console.log("no hay");
     }
     
+} 
+async function getissue(token){
+    const octokit = new Octokit({
+        auth: token
+      })
+      
+      var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
+        owner: "occmundial",
+        repo: "security-tests",
+        issue_number: 92
+      })
+      return result.data.body;
 }
+const otrafuncion = async () => { 
+    addLabelsOnWI(await getissue(""));
+}
+otrafuncion();
+
