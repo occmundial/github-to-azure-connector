@@ -229,7 +229,7 @@ function getValuesFromPayload(payload, env) {
       auth: token
     })
     
-    var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
+    var result =  octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
       owner: vm.owner,
       repo: vm.repository,
       issue_number: vm.number
