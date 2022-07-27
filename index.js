@@ -29,7 +29,7 @@ function main(vm){
           labels_array.push(item.name);
         });
         const labels_string = String(labels_array);
-        console.log(labels_string);
+        console.log(addLabelsOnWI(vm, labels_string));
       }
       otrafuncion();
       break;
@@ -226,9 +226,19 @@ function getValuesFromPayload(payload, env) {
 
   function addLabelsOnWI(vm, labels){
 
+    var id = "";
+
+    let str = vm.body;
+    if (str.includes("AB#")){
+      let position = (str.search("AB#") + 3);
+      id = str.substring(position);
+    } else {
+      return "No hay AB";
+    }
+
     let token = vm.env.adoToken;
     let pat = token;
-    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${ID}?api-version=7.1-preview.3`;
+    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${id}?api-version=7.1-preview.3`;
     var headers = {
         'Content-Type': 'application/json-patch+json',
         'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
@@ -238,7 +248,7 @@ function getValuesFromPayload(payload, env) {
         "op": "add",
         "path": "/fields/System.Tags",
         "from": null,
-        "value": vm.label
+        "value": labels
       }
     ];
 
@@ -251,9 +261,9 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          console.log(response);
+          return response;
       }).catch(error => {
-          console.error(error);
+          return error;
       });  
 
   }
