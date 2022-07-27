@@ -29,7 +29,7 @@ function main(vm){
           labels_array.push(item.name);
         });
         const labels_string = String(labels_array);
-        console.log(addLabelsOnWI(vm, labels_string));
+        console.log(addLabelsOnWI(labels_string));
       }
       otrafuncion();
       break;
@@ -224,7 +224,8 @@ function getValuesFromPayload(payload, env) {
     return result;
   }
 
-  function addLabelsOnWI(vm, labels){
+  function addLabelsOnWI(labels){
+    vm = getValuesFromPayload(github.context.payload, env);
 
     var id = "";
 
