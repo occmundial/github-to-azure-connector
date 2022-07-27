@@ -23,10 +23,13 @@ function main(vm){
     case "labeled":
       console.log("labeled");
       const otrafuncion = async () => {
+        let labels_array = [];
         labels = await getLabels(vm);
         labels.data.forEach((item) => {
-          console.log('name: ' + item.name);
+          labels_array.push(item.name);
         });
+        const labels_string = String(labels_array);
+        console.log(labels_string);
       }
       otrafuncion();
       break;
