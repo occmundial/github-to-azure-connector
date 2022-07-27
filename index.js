@@ -28,9 +28,10 @@ function main(vm){
         labels.data.forEach((item) => {
           labels_array.push(item.name);
         });
+        let new_vm = getValuesFromPayload(github.context.payload, env);
         const labels_string = String(labels_array);
         //console.log(addLabelsOnWI(labels_string));
-        console.log(labels_string,vm);
+        console.log(labels_string,new_vm);
       }
       awaitlabels();
       break;
