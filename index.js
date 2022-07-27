@@ -213,11 +213,12 @@ function getValuesFromPayload(payload, env) {
       issue_number: vm.number
     })
 
-    var labels = JSON.Parse(result);
+    console.log(result);
 
-    for (const label of labels) {
+
+    /* for (const label of labels) {
       console.log(label.name);
-    }
+    } */
 
 
     /* let token = vm.env.adoToken;
