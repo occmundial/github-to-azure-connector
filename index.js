@@ -239,10 +239,9 @@ function getValuesFromPayload(payload, env) {
     })
 
     var id = "";
-    return result;
-
-    //let str = result.data.body;
-    /* if (str.includes("AB#")){
+    //return result;
+    let str = result.data.body;
+    if (str.includes("AB#")){
       let position = (str.search("AB#") + 3);
       id = str.substring(position);
     } else {
@@ -277,7 +276,7 @@ function getValuesFromPayload(payload, env) {
           return response;
       }).catch(error => {
           return error;
-      });  */ 
+      }); 
 
   }
 
