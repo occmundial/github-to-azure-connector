@@ -28,7 +28,10 @@ function main(vm){
           labels_array.push(item.name);
         });
         const labels_string = String(labels_array);
-        console.log(addLabelsOnWI(labels_string));
+        const awaitaddlabels = async () => {
+          console.log(addLabelsOnWI(labels_string));
+        }
+        awaitaddlabels();
       }
       awaitlabels();
       break;
@@ -223,13 +226,13 @@ function getValuesFromPayload(payload, env) {
     return result;
   }
 
-  function addLabelsOnWI(labels){
+  async function addLabelsOnWI(labels){
 
     const octokit = new Octokit({
       auth: vm.env.ghToken
     })
     
-    var result =  octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
+    var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
       owner: vm.owner,
       repo: vm.repository,
       issue_number: vm.number
