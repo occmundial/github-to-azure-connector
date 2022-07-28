@@ -273,7 +273,7 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          return response;
+          return "Labels added";
       }).catch(error => {
           return error;
       }); 
