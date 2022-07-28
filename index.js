@@ -236,7 +236,7 @@ function getValuesFromPayload(payload, env) {
     })
 
     var id = "";
-    return result.data;
+    return result;
 
     //let str = result.data.body;
     /* if (str.includes("AB#")){
