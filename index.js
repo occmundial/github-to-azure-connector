@@ -29,7 +29,7 @@ function main(vm){
         });
         const labels_string = String(labels_array);
         const awaitaddlabels = async () => {
-          console.log(addLabelsOnWI(labels_string));
+          console.log(await addLabelsOnWI(labels_string));
         }
         awaitaddlabels();
       }
