@@ -78,6 +78,7 @@ function getValuesFromPayload(payload, env) {
               activeState: env.ado_active_state != undefined ? env.ado_active_state : "Active",
               bypassRules: env.ado_bypassrules != undefined ? env.ado_bypassrules : false,
               githubIssueState: env. github_issue_state != undefined ? env. github_issue_state : "default",
+              assigne: env.ado_assigne != undefined ? env.ado_assigne:"",
               logLevel: env.log_level != undefined ? env.log_level : 100
           }
       };
@@ -154,7 +155,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.AssignedTo",
           "from": null,
-          "value": "agarciab@occ.com.mx"
+          "value": vm.env.assigne
         },
         {
           "op": "add",
