@@ -57,7 +57,6 @@ function getValuesFromPayload(payload, env) {
           closed_at: payload.issue.closed_at != undefined ? payload.issue.closed_at : null,
           owner: payload.repository.owner != undefined ? payload.repository.owner.login : "",
           sender_login: payload.sender.login != undefined ? payload.sender.login : '',
-          label:"",
           comment_text: "",
           comment_url: "",
           organization: "",
@@ -115,12 +114,6 @@ function getValuesFromPayload(payload, env) {
           "path": "/fields/System.AreaPath",
           "from": null,
           "value": vm.env.areaPath
-        },
-        {
-          "op": "add",
-          "path": "/fields/System.Tags",
-          "from": null,
-          "value": vm.label
         },
         {
           "op": "add",
