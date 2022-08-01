@@ -154,7 +154,7 @@ function getValuesFromPayload(payload, env) {
           "op": "add",
           "path": "/fields/System.AssignedTo",
           "from": null,
-          "value": "Alan Garcia Bolaños"
+          "value": "agarciab@occ.com.mx"
         },
         {
           "op": "add",
