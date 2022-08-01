@@ -12,7 +12,7 @@ function main(vm){
 
   switch (vm.env.githubIssueState){
     case "opened":
-      console.log("opened state run");
+      //Function for Work Item creation and add AzureBoard ID to Github issue body
       createWI(vm);
       break;
     case "edited":
@@ -20,20 +20,20 @@ function main(vm){
       //Function to edit WI
       break;
     case "labeled":
-      console.log("labeled");
-      const awaitlabels = async () => {
+      // Get labels from Github and add labels on Work Item, after Work Item creation
+      const awaitLabels = async () => {
         let labels_array = [];
         labels = await getLabels(vm);
         labels.data.forEach((item) => {
           labels_array.push(item.name);
         });
         const labels_string = String(labels_array);
-        const awaitaddlabels = async () => {
+        const awaitAddLabels = async () => {
           console.log(await addLabelsOnWI(labels_string));
         }
-        awaitaddlabels();
+        awaitAddLabels();
       }
-      awaitlabels();
+      awaitLabels();
       break;
     default:
       console.log(`This is a diferent action: ${vm.action}`);
@@ -41,9 +41,8 @@ function main(vm){
   
 }
 
-// get object values from the payload that will be used for logic, updates, finds, and creates
+// Get information from Github Issue and Github Action (environment parameters)
 function getValuesFromPayload(payload, env) {
-    // prettier-ignore
     var vm = {
           action: payload.action != undefined ? payload.action : "",
           url: payload.issue.html_url != undefined ? payload.issue.html_url : "",
@@ -58,7 +57,6 @@ function getValuesFromPayload(payload, env) {
           closed_at: payload.issue.closed_at != undefined ? payload.issue.closed_at : null,
           owner: payload.repository.owner != undefined ? payload.repository.owner.login : "",
           sender_login: payload.sender.login != undefined ? payload.sender.login : '',
-          label: "",
           comment_text: "",
           comment_url: "",
           organization: "",
@@ -70,30 +68,13 @@ function getValuesFromPayload(payload, env) {
               ghToken: env.github_token != undefined ? env.github_token : "",
               project: env.ado_project != undefined ? env.ado_project : "",
               areaPath: env.ado_area_path != undefined ? env.ado_area_path : "",
-              iterationPath: env.ado_iteration_path != undefined ? env.ado_iteration_path : "",
               wit: env.ado_wit != undefined ? env.ado_wit : "Issue",
               adoParent: env.ado_parent != undefined ? env.ado_parent : "",
-              closedState: env.ado_close_state != undefined ? env.ado_close_state : "Closed",
-              newState: env.ado_new_state != undefined ? env.ado_new_state : "New",
               activeState: env.ado_active_state != undefined ? env.ado_active_state : "Active",
-              bypassRules: env.ado_bypassrules != undefined ? env.ado_bypassrules : false,
               githubIssueState: env. github_issue_state != undefined ? env. github_issue_state : "default",
-              assigne: env.ado_assigne != undefined ? env.ado_assigne:"",
-              logLevel: env.log_level != undefined ? env.log_level : 100
+              assigne: env.ado_assigne != undefined ? env.ado_assigne:""
           }
       };
-  
-    // label is not always part of the payload
-    if (payload.label != undefined) {
-      vm.label = payload.label.name != undefined ? payload.label.name : "";
-    }
-  
-    // comments are not always part of the payload
-    // prettier-ignore
-    if (payload.comment != undefined) {
-          vm.comment_text = payload.comment.body != undefined ? payload.comment.body : "";
-          vm.comment_url = payload.comment.html_url != undefined ? payload.comment.html_url : "";
-      }
   
     // split repo full name to get the org and repository names
     if (vm.repo_fullname != "") {
@@ -101,16 +82,11 @@ function getValuesFromPayload(payload, env) {
       vm.organization = split[0] != undefined ? split[0] : "";
       vm.repository = split[1] != undefined ? split[1] : "";
     }
-    
-    // verbose logging
-    if (vm.env.logLevel >= 300) {
-      console.log("Print vm:");
-      console.log(vm);
-    }
   
     return vm;
   }
 
+  //Functión to create Work Item, getting parameters from VM
   function createWI(vm){
     let token = vm.env.adoToken;
     let pat = token;
@@ -177,16 +153,14 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          //console.log(response.id);
-          //console.log(vm);
           console.log(updateIssueBody(vm,response.id));
       }).catch(error => {
           console.error(error);
       }); 
   }
 
+  //Get Work Item ID from Azure and add it to Github issue body (AB#ID)
   function updateIssueBody(vm, workItemID) {
-    if (vm.env.logLevel >= 200) console.log(`Starting 'updateIssueBody' method...`);
   
     var n = vm.body.includes("AB#" + workItemID.toString());  
   
@@ -202,17 +176,12 @@ function getValuesFromPayload(payload, env) {
         issue_number: vm.number,
         body: vm.body,
       })
-  
-      // verbose logging
-      if (vm.env.logLevel >= 300) {
-        console.log("Print github issue update result:");
-      }
       return result;
     }
-  
     return null;
   }
 
+  //Get labes from Github Issue
   async function getLabels(vm){
     const octokit = new Octokit({
       auth: vm.env.ghToken
@@ -227,6 +196,7 @@ function getValuesFromPayload(payload, env) {
     return result;
   }
 
+  //Add labes form Github issue to Work Item on Azure, Needs AB#ID
   async function addLabelsOnWI(labels){
 
     const octokit = new Octokit({
@@ -240,7 +210,6 @@ function getValuesFromPayload(payload, env) {
     })
 
     var id = "";
-    //return result;
     let str = result.data.body;
     if (str.includes("AB#")){
       let position = (str.search("AB#") + 3);
@@ -281,6 +250,7 @@ function getValuesFromPayload(payload, env) {
 
   }
 
+  // Work in progress
   function editWI(vm){
     let str = vm.body;
     if (str.includes("AB#")){
