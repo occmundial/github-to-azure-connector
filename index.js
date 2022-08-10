@@ -262,6 +262,11 @@ function getValuesFromPayload(payload, env) {
       return "No hay AB";
     }
 
+    result.data.labels.forEach((item) => {
+      labels_array.push(item.name);
+    });
+    const labels_string = String(labels_array);
+
     let token = vm.env.adoToken;
     let pat = token;
     var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${id}?api-version=7.1-preview.3`;
@@ -279,6 +284,11 @@ function getValuesFromPayload(payload, env) {
         "op": "add",
         "path": "/fields/System.Description",
         "value": result.data.body
+      },
+      {
+        "op": "add",
+        "path": "/fields/System.Tags",
+        "value": labels_string
       }
     ];
 

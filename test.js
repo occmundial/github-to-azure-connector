@@ -78,6 +78,7 @@ async function getLabels(tokenAzure,tokenGithub){
         }).catch(error => {
             return error;
         }); 
+    return result.data.labels[0];
 }
 const otrafuncion = async () => { 
     console.log(await getLabels("", ""));
