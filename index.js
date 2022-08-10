@@ -243,7 +243,7 @@ function getValuesFromPayload(payload, env) {
 
   // Work in progress
   async function editWI(vm){
-    if (vm.env.githubIssueState == "opened") return false;
+    if (vm.env.githubIssueState == "opened" || vm.env.githubIssueState == "labeled") return false;
     const octokit = new Octokit({
       auth: vm.env.ghToken
     })
