@@ -18,7 +18,7 @@ function main(vm){
     case "edited":
       //Function to edit WI
       const awaitEdit = async () => {
-        console.log(await editWI(vm));
+        await editWI(vm);
       }
       awaitEdit();
       break;
@@ -272,6 +272,11 @@ function getValuesFromPayload(payload, env) {
     let body = [
       {
         "op": "add",
+        "path": "/fields/System.Title",
+        "value": result.data.title
+      },
+      {
+        "op": "add",
         "path": "/fields/System.Description",
         "value": result.data.body
       }
@@ -286,7 +291,7 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          return "success";
+          return response;
       }).catch(error => {
           return error;
       }); 
