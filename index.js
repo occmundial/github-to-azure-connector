@@ -239,7 +239,7 @@ function getValuesFromPayload(payload, env) {
   }
 
   // Work in progress
-  function editWI(vm){
+  async function editWI(vm){
     const octokit = new Octokit({
       auth: vm.env.ghToken
     })
