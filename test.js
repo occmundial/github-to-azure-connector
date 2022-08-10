@@ -1,4 +1,5 @@
-
+const github = require(`@actions/github`);
+const fetch = require(`node-fetch-commonjs`);
 const { Octokit, App } = require("octokit");
 //addLabelsOnWI(getissue("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"));
 
@@ -29,27 +30,60 @@ const otrafuncion = async () => {
 }
 otrafuncion(); */
 
-async function getLabels(token){
+async function getLabels(tokenAzure,tokenGithub){
     const octokit = new Octokit({
-      auth: token
-    })
-    
-    var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/labels',{
+        auth: tokenGithub
+      })
+      
+      var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
         owner: "occmundial",
         repo: "security-tests",
-        issue_number: 110
-    })
-
+        issue_number: 132
+      })
+  
+      var id = "";
+      let str = result.data.body;
+      if (str.includes("AB#")){
+        let position = (str.search("AB#") + 3);
+        id = str.substring(position);
+      } else {
+        return "No hay AB";
+      }
+  
+      let token = tokenAzure;
+      let pat = token;
+      var server = `https://dev.azure.com/occmundial/Workshop/_apis/wit/workitems/${id}?api-version=7.1-preview.3`;
+      var headers = {
+          'Content-Type': 'application/json-patch+json',
+          'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
+      };
+      let body = [
+        {
+          "op": "add",
+          "path": "/fields/System.Description",
+          "value":"+2"
+        }
+      ];
+  
+      const options = {
+        method: "PATCH",
+        headers: headers,
+        body: JSON.stringify(body),
+      };
+  
+      fetch(server, options)
+        .then(response => response.json())
+        .then(response => {
+            return response;
+        }).catch(error => {
+            return error;
+        }); 
     return result;
 }
 const otrafuncion = async () => { 
-    let labels_array = [];
-    labels = await getLabels("");
-    labels.data.forEach((item) => {
-        labels_array.push(item.name);
-    });
-    console.log(labels_array);
+    console.log(await getLabels("", ""));
 }
 otrafuncion(); 
+
 
   

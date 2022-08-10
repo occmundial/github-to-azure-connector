@@ -17,7 +17,10 @@ function main(vm){
       break;
     case "edited":
       //Function to edit WI
-      editWI(vm);
+      const awaitEdit = async () => {
+        await editWI(vm);
+      }
+      awaitEdit();
       break;
     case "labeled":
       // Get labels from Github and add labels on Work Item, after Work Item creation
