@@ -272,18 +272,8 @@ function getValuesFromPayload(payload, env) {
     let body = [
       {
         "op": "add",
-        "path": "/fields/System.Title",
-        "value": result.data.title
-      },
-      {
-        "op": "add",
         "path": "/fields/System.Description",
         "value": result.data.body
-      },
-      {
-        "op": "add",
-        "path": "/fields/System.State",
-        "value": result.data.state
       }
     ];
 
@@ -296,7 +286,7 @@ function getValuesFromPayload(payload, env) {
     fetch(server, options)
       .then(response => response.json())
       .then(response => {
-          return response;
+          return "success";
       }).catch(error => {
           return error;
       }); 
