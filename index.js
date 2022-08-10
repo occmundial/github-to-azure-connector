@@ -261,7 +261,7 @@ function getValuesFromPayload(payload, env) {
     } else {
       return "No hay AB";
     }
-
+    let labels_array = [];
     result.data.labels.forEach((item) => {
       labels_array.push(item.name);
     });
