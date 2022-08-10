@@ -18,7 +18,7 @@ function main(vm){
     case "edited":
       //Function to edit WI
       const awaitEdit = async () => {
-        await editWI(vm);
+        console.log(await editWI(vm));
       }
       awaitEdit();
       break;

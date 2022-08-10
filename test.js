@@ -61,7 +61,7 @@ async function getLabels(tokenAzure,tokenGithub){
         {
           "op": "add",
           "path": "/fields/System.Description",
-          "value":"+2"
+          "value": result.data.body
         }
       ];
   
