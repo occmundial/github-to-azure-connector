@@ -16,8 +16,8 @@ function main(vm){
       createWI(vm);
       break;
     case "edited":
-      console.log("edited state run");
       //Function to edit WI
+      editWI(vm);
       break;
     case "labeled":
       // Get labels from Github and add labels on Work Item, after Work Item creation
@@ -100,31 +100,26 @@ function getValuesFromPayload(payload, env) {
         {
           "op": "add",
           "path": "/fields/System.Title",
-          "from": null,
           "value": vm.title
         },
         {
           "op": "add",
           "path": "/fields/System.Description",
-          "from": null,
           "value": vm.body
         },
         {
           "op": "add",
           "path": "/fields/System.AreaPath",
-          "from": null,
           "value": vm.env.areaPath
         },
         {
           "op": "add",
           "path": "/fields/System.State",
-          "from": null,
           "value": vm.env.activeState
         },
         {
           "op": "add",
           "path": "/fields/System.AssignedTo",
-          "from": null,
           "value": vm.env.assigne
         },
         {
@@ -223,7 +218,6 @@ function getValuesFromPayload(payload, env) {
       {
         "op": "add",
         "path": "/fields/System.Tags",
-        "from": null,
         "value": labels
       }
     ];
@@ -246,12 +240,61 @@ function getValuesFromPayload(payload, env) {
 
   // Work in progress
   function editWI(vm){
-    let str = vm.body;
+    const octokit = new Octokit({
+      auth: vm.env.ghToken
+    })
+    
+    var result =  await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
+      owner: vm.owner,
+      repo: vm.repository,
+      issue_number: vm.number
+    })
+
+    var id = "";
+    let str = result.data.body;
     if (str.includes("AB#")){
       let position = (str.search("AB#") + 3);
-      const id = str.substring(position);
-      return id;
+      id = str.substring(position);
     } else {
-      return ":c";
+      return "No hay AB";
     }
+
+    let token = vm.env.adoToken;
+    let pat = token;
+    var server = `https://dev.azure.com/${vm.env.organization}/${vm.env.project}/_apis/wit/workitems/${id}?api-version=7.1-preview.3`;
+    var headers = {
+        'Content-Type': 'application/json-patch+json',
+        'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
+    };
+    let body = [
+      {
+        "op": "add",
+        "path": "/fields/System.Title",
+        "value": result.data.title
+      },
+      {
+        "op": "add",
+        "path": "/fields/System.Description",
+        "value": result.data.body
+      },
+      {
+        "op": "add",
+        "path": "/fields/System.State",
+        "value": result.data.state
+      }
+    ];
+
+    const options = {
+      method: "PATCH",
+      headers: headers,
+      body: JSON.stringify(body),
+    };
+
+    fetch(server, options)
+      .then(response => response.json())
+      .then(response => {
+          return response;
+      }).catch(error => {
+          return error;
+      }); 
   }
