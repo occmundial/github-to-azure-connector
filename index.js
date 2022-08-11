@@ -9,39 +9,37 @@ vm = getValuesFromPayload(github.context.payload, env);
 main(vm);
 
 function main(vm){
-
-  switch (vm.env.githubIssueState){
-    case "opened":
-      //Function for Work Item creation and add AzureBoard ID to Github issue body
-      createWI(vm);
-      break;
-    case "edited":
-      //Function to edit WI
-      const awaitEdit = async () => {
-        await editWI(vm);
-      }
-      awaitEdit();
-      break;
-    case "labeled":
-      // Get labels from Github and add labels on Work Item, after Work Item creation
-      const awaitLabels = async () => {
-        let labels_array = [];
-        labels = await getLabels(vm);
-        labels.data.forEach((item) => {
-          labels_array.push(item.name);
-        });
-        const labels_string = String(labels_array);
-        const awaitAddLabels = async () => {
-          console.log(await addLabelsOnWI(labels_string));
+    switch (vm.env.githubIssueState){
+      case "opened":
+        //Function for Work Item creation and add AzureBoard ID to Github issue body
+        createWI(vm);
+        break;
+      case "edited":
+        //Function to edit WI or close WI
+          const awaitEdit = async () => {
+            await editWI(vm);
+          }
+          awaitEdit();
+        break;
+      case "labeled":
+        // Get labels from Github and add labels on Work Item, after Work Item creation
+        const awaitLabels = async () => {
+          let labels_array = [];
+          labels = await getLabels(vm);
+          labels.data.forEach((item) => {
+            labels_array.push(item.name);
+          });
+          const labels_string = String(labels_array);
+          const awaitAddLabels = async () => {
+            console.log(await addLabelsOnWI(labels_string));
+          }
+          awaitAddLabels();
         }
-        awaitAddLabels();
-      }
-      awaitLabels();
-      break;
-    default:
-      console.log(`This is a diferent action: ${vm.action}`);
-  }
-  
+        awaitLabels();
+        break;
+      default:
+        console.log(`This is a diferent action: ${vm.action}`);
+    }
 }
 
 // Get information from Github Issue and Github Action (environment parameters)
@@ -241,7 +239,7 @@ function getValuesFromPayload(payload, env) {
 
   }
 
-  // Work in progress
+  // Function to edit WorkItem content or close WorkItem
   async function editWI(vm){
     if (vm.env.githubIssueState == "opened" || vm.env.githubIssueState == "labeled") return false;
     const octokit = new Octokit({
@@ -275,24 +273,34 @@ function getValuesFromPayload(payload, env) {
         'Content-Type': 'application/json-patch+json',
         'Authorization': 'Basic ' + Buffer.from(''+":"+pat, 'ascii').toString('base64')
     };
-    let body = [
-      {
-        "op": "add",
-        "path": "/fields/System.Title",
-        "value": result.data.title
-      },
-      {
-        "op": "add",
-        "path": "/fields/System.Description",
-        "value": result.data.body
-      },
-      {
-        "op": "add",
-        "path": "/fields/System.Tags",
-        "value": labels_string
-      }
-    ];
-
+    
+    if(vm.state == "closed"){
+      let body = [
+        {
+          "op": "add",
+          "path": "/fields/System.State",
+          "value": "Closed"
+        }
+      ];
+    }else{
+      let body = [
+        {
+          "op": "add",
+          "path": "/fields/System.Title",
+          "value": result.data.title
+        },
+        {
+          "op": "add",
+          "path": "/fields/System.Description",
+          "value": result.data.body
+        },
+        {
+          "op": "add",
+          "path": "/fields/System.Tags",
+          "value": labels_string
+        }
+      ];
+   }
     const options = {
       method: "PATCH",
       headers: headers,
