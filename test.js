@@ -1,7 +1,6 @@
 const github = require(`@actions/github`);
 const fetch = require(`node-fetch-commonjs`);
 const { Octokit, App } = require("octokit");
-//addLabelsOnWI(getissue("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"));
 
 /* async function addLabelsOnWI(desc){
     let str = desc;
