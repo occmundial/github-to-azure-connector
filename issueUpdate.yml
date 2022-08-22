@@ -1,0 +1,16 @@
+name: Edit Azure DevOps work item
+on:
+  issues:
+    types:
+      [edited, labeled, closed]
+jobs:
+  editWI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: occmundial/github-to-azure-connector@main
+        env:
+          ado_token: "${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}"
+          github_token: "${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}"
+          ado_organization: "{ORGANIZATION NAME}"
+          ado_project: "{PROJECT NAME}"
+          github_issue_state: "edited"

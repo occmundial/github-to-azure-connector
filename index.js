@@ -9,7 +9,6 @@ vm = getValuesFromPayload(github.context.payload, env);
 main(vm);
 
 function main(vm){
-  console.log(vm.state);
   switch (vm.env.githubIssueState){
     case "opened":
       //Function for Work Item creation and add AzureBoard ID to Github issue body

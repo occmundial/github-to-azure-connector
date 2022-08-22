@@ -1,0 +1,36 @@
+name: Create issue on Azure DevOps as work item
+on:
+  issues:
+    types:
+      [opened]
+#[opened, edited, deleted, closed, reopened, labeled, unlabeled, assigned]
+#Environment parameters
+jobs:
+  createWI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: occmundial/github-to-azure-connector@main
+        env:
+          ado_token: "${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}"
+          github_token: "${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}"
+          ado_organization: "{ORGANIZATION NAME}"
+          ado_project: "{PROJECT NAME}"
+#Area path for _Managers is just the project name
+          ado_area_path: "{AREA PATH}"
+          ado_wit: "{WORK ITEM TYPE}"
+          ado_parent: "https://dev.azure.com/{ORHANIZATION NAME}/{PROJECT NAME}/_workitems/edit/{PARENT ID}"
+          ado_active_state: "New"
+          github_issue_state: "opened"
+          ado_assigne: ""
+#Parameters for label state
+  addingLabels:
+    needs: createWI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: occmundial/github-to-azure-connector@main
+        env:
+          ado_token: "${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}"
+          github_token: "${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}"
+          ado_organization: "{ORGANIZATION NAME}"
+          ado_project: "{PROJECT NAME}"
+          github_issue_state: "labeled"
